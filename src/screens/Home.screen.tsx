@@ -1,25 +1,19 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, ImageBackground } from 'react-native';
+import { useAppContext } from '../App.provider';
+import { HomeIcon } from '../components/Icons';
 import { MoodPicker } from '../components/MoodPicker';
-import { MoodOptionType, MoodOptionWithTimestamp } from '../type';
+
+const imageUrl =
+  'https://images.unsplash.com/photo-1474540412665-1cdae210ae6b?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1766&q=80';
 
 export const Home: React.FC = () => {
-  const [moodList, setMoodList] = React.useState<MoodOptionWithTimestamp[]>([]);
-
-  const handleSelectMood = React.useCallback((mood: MoodOptionType) => {
-    setMoodList(current => [...current, { mood, timestamp: Date.now() }]);
-  }, []);
+  const appContext = useAppContext();
 
   return (
-    <View style={styles.container}>
-      <MoodPicker onSelect={handleSelectMood} />
-
-      {moodList.map(item => (
-        <Text key={item.timestamp}>
-          {item.mood.emoji} {new Date(item.timestamp).toString()}
-        </Text>
-      ))}
-    </View>
+    <ImageBackground style={styles.container} source={{ uri: imageUrl }}>
+      <MoodPicker onSelect={appContext.handleSelectMood} />
+    </ImageBackground>
   );
 };
 

@@ -1,7 +1,9 @@
-import React from 'react';
-import { View, Text, StyleSheet, Pressable } from 'react-native';
-import { MoodOptionType } from '../type';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Pressable, Image } from 'react-native';
+import { MoodOptionType } from '../types';
 import { theme } from '../theme';
+
+const imageSrc = require('../../assets/butterflies.png');
 
 const moodOptions: MoodOptionType[] = [
   { emoji: '🧑‍💻', description: 'studious' },
@@ -17,13 +19,26 @@ type MoodPickerProps = {
 
 export const MoodPicker: React.FC<MoodPickerProps> = ({ onSelect }) => {
   const [selectedMood, setSelectedMood] = React.useState<MoodOptionType>();
+  const [hasSelected, setHasSelected] = useState<boolean>(false);
 
   const handleSelect = React.useCallback(() => {
     if (selectedMood) {
       onSelect(selectedMood);
       setSelectedMood(undefined);
+      setHasSelected(true);
     }
   }, [onSelect, selectedMood]);
+
+  if (hasSelected) {
+    return (
+      <View style={styles.container}>
+        <Image source={imageSrc} style={styles.image} />
+        <Pressable style={styles.button} onPress={() => setHasSelected(false)}>
+          <Text style={styles.buttonText}>Choose another!</Text>
+        </Pressable>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -77,35 +92,40 @@ const styles = StyleSheet.create({
   },
   descriptionText: {
     color: theme.colorPurple,
-    fontWeight: 'bold',
     fontSize: 10,
     textAlign: 'center',
+    fontFamily: theme.fontFamilyBold,
   },
   container: {
-    borderWidth: 2,
-    borderColor: theme.colorPurple,
+    height: 250,
     margin: 10,
     borderRadius: 10,
     padding: 20,
+    borderWidth: 2,
+    borderColor: theme.colorPurple,
+    backgroundColor: 'rgba(0,0,0,0.2)',
+    justifyContent: 'space-between',
   },
   heading: {
     fontSize: 20,
-    fontWeight: 'bold',
     letterSpacing: 1,
     textAlign: 'center',
-    marginBottom: 20,
+    color: theme.colorWhite,
+    fontFamily: theme.fontFamilyBold,
   },
   button: {
     backgroundColor: theme.colorPurple,
     width: 150,
     borderRadius: 20,
-    marginTop: 20,
     alignSelf: 'center',
     padding: 10,
   },
   buttonText: {
     color: theme.colorWhite,
     textAlign: 'center',
-    fontWeight: 'bold',
+    fontFamily: theme.fontFamilyBold,
+  },
+  image: {
+    alignSelf: 'center',
   },
 });
