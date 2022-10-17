@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, ImageBackground } from 'react-native';
+import { StyleSheet, ImageBackground } from 'react-native';
 import { useAppContext } from '../App.provider';
-import { HomeIcon } from '../components/Icons';
 import { MoodPicker } from '../components/MoodPicker';
 
 const imageUrl =
@@ -21,5 +20,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
+  },
+  square: {
+    width: 100,
+    height: 100,
+    backgroundColor: 'lightgreen',
   },
 });
